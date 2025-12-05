@@ -11,7 +11,7 @@ export default class Game {
         // Skapa alla objekt i spelet
         this.gameObjects = [
             new Rectangle(this, 50, 50, 100, 100, 'red'),
-            new Rectangle(this, 200, 150, 150, 75, 'blue')
+            new Rectangle(this, 200, 150, 150, 75, 'blue'),
             
         ]
     }
