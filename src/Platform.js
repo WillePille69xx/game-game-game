@@ -1,9 +1,10 @@
 import GameObject from './GameObject.js'
 
 export default class Platform extends GameObject {
-    constructor(game, x, y, width, height, color = '#8B4513') {
+    constructor(game, x, y, width, height, color = '#8B4513', dropThrough = true) {
         super(game, x, y, width, height)
         this.color = color
+        this.dropThrough = dropThrough 
     }
 
     draw(ctx) {

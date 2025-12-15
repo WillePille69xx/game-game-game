@@ -18,15 +18,17 @@ export default class Game {
 
         // Skapa plattformar för nivån
         this.platforms = [
-            // Marken
-            new Platform(this, 0, this.height - 40, this.width, 40, '#654321'),
+
+            new Platform(this, 0, this.height - 40, this.width, 40, '#654321', false), // False means not Drop Through
             
             // Plattformar
-            new Platform(this, 150, this.height - 140, 150, 20, '#8B4513'),
-            new Platform(this, 400, this.height - 200, 120, 20, '#8B4513'),
-            new Platform(this, 100, this.height - 280, 100, 20, '#8B4513'),
-            new Platform(this, 550, this.height - 160, 100, 20, '#8B4513'),
-            new Platform(this, 350, this.height - 320, 140, 20, '#8B4513'),
+            new Platform(this, 150, this.height - 140, 150, 20, '#65432179', true),
+            new Platform(this, 400, this.height - 200, 120, 20, '#654321', false),
+            new Platform(this, 100, this.height - 280, 100, 20, '#654321', false),
+            new Platform(this, 550, this.height - 160, 100, 20, '#65432179', true),
+            new Platform(this, 350, this.height - 320, 140, 20, '#65432179', true),
+            new Platform(this, 700, this.height - 250, 120, 20, '#654321', false),
+            new Platform(this, 250, this.height - 400, 100, 20, '#65432179', true)
         ]
 
         // Skapa andra objekt i spelet (valfritt)
@@ -51,15 +53,24 @@ export default class Game {
             const collision = this.player.getCollisionData(platform)
             
             if (collision) {
+                const isDropping = this.inputHandler.keys.has('ArrowDown') || this.inputHandler.keys.has('s');
+
                 if (collision.direction === 'top' && this.player.velocityY > 0) {
-                    // Kollision från ovan - spelaren landar på plattformen
-                    this.player.y = platform.y - this.player.height
-                    this.player.velocityY = 0
-                    this.player.isGrounded = true
+                    if (isDropping && platform.dropThrough) {
+                    } else {
+                        this.player.y = platform.y - this.player.height
+                        this.player.velocityY = 0
+                        this.player.isGrounded = true
+                    }
                 } else if (collision.direction === 'bottom' && this.player.velocityY < 0) {
                     // Kollision från nedan - spelaren träffar huvudet
-                    this.player.y = platform.y + platform.height
-                    this.player.velocityY = 0
+                    if (platform.dropThrough) {
+                        return;
+                    }
+                    else {
+                        this.player.y = platform.y + platform.height
+                        this.player.velocityY = 0
+                    }
                 } else if (collision.direction === 'left' && this.player.velocityX > 0) {
                     // Kollision från vänster
                     this.player.x = platform.x - this.player.width

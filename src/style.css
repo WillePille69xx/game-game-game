@@ -6,7 +6,27 @@ body {
 }
 
 canvas#game {
+    background-color: #87CEEB;
     border: 4px solid #333;
     max-width: 100%;
-    width: 100%;;
+    width: 100%;
+    animation: DayNightCycle 120s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes DayNightCycle {
+    /* NOON */
+    0% { background-color: #87CEEB; }
+    
+    /* SUNSET (Adding a purple/orange tint here smooths the transition) */
+    25% { background-color: #6a5acd; } /* Slate Blue */
+    
+    /* MIDNIGHT */
+    50% { background-color: #001848; }
+    
+    /* SUNRISE */
+    75% { background-color: #6a5acd; } /* Slate Blue */
+    
+    /* NOON */
+    100% { background-color: #87CEEB; }
 }
