@@ -24,6 +24,10 @@ export default class Player extends GameObject {
         this.invulnerable = false // Immun mot skada efter att ha blivit träffad
         this.invulnerableTimer = 0
         this.invulnerableDuration = 1000 // 1 sekund i millisekunder
+
+        this.maxJump = 2
+        this.jumpCount = 0
+
     }
 
     update(deltaTime) {
@@ -40,10 +44,19 @@ export default class Player extends GameObject {
         }
 
         // Hopp - endast om spelaren är på marken
-        if (this.game.inputHandler.keys.has(' ') && this.isGrounded) {
+        if ((this.game.inputHandler.keys.has(' ') || this.game.inputHandler.keys.has("w") || this.game.inputHandler.keys.has("ArrowUp")) && this.jumpCount < this.maxJump) {
             this.velocityY = this.jumpPower
             this.isGrounded = false
+            this.jumpCount++
+            this.game.inputHandler.keys.delete(' ') 
+            this.game.inputHandler.keys.delete('w')
+            this.game.inputHandler.keys.delete('ArrowUp')   
         }
+
+        if (this.isGrounded) {
+            this.jumpCount = 0 
+        }
+
 
         // Applicera gravitation
         this.velocityY += this.game.gravity * deltaTime
@@ -129,7 +142,7 @@ export default class Player extends GameObject {
         ctx.fillRect(this.x + this.width * 0.6, this.y + this.height * 0.2, this.width * 0.2, this.height * 0.2)
         
         // Rita pupiller
-        ctx.fillStyle = 'black'
+        ctx.fillStyle = 'red'
         ctx.fillRect(
             this.x + this.width * 0.25 + this.directionX * this.width * 0.05, 
             this.y + this.height * 0.25 + this.directionY * this.width * 0.05, 

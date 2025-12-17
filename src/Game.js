@@ -21,7 +21,7 @@ export default class Game {
         this.inputHandler = new InputHandler(this)
         this.ui = new UserInterface(this)
 
-        this.player = new Player(this, 50, 50, 50, 50, 'green')
+        this.player = new Player(this, 50, 50, 60, 40, 'green')
 
         // Skapa plattformar för nivån
         this.platforms = [
